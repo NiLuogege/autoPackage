@@ -63,7 +63,10 @@ task1.doFirst {
 
         def jiagu = """${path}/tools/jiagu/java/bin/java -jar ${path}/tools/jiagu/jiagu.jar -jiagu ${path}/build/outputs/apk/release/app-release.apk ${path}/build/outputs/apk/release"""// Create the String
         def jiaguProc = jiagu.execute()
+
         jiaguProc.waitFor()
+
+        println "stdout: ${jiaguProc.in.text}" // *out* from the external program is *in* for groovy
 
         if (jiaguProc.exitValue() == 0) {
             println "jiagu-->jiagu成功"
