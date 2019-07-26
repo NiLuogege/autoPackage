@@ -1,0 +1,84 @@
+apply plugin: 'com.android.application'
+import java.io.File
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "29.0.0"
+    defaultConfig {
+        applicationId "com.aihuishou.demo"
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('doc/key.jks')
+            storePassword "111111"
+            keyAlias "demo"
+            keyPassword "111111"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+//task task1(dependsOn:[assemble]) {
+//    println "configure task1"
+//}
+
+task task1() {
+    println "configure task1"
+}
+
+task1.doFirst {
+    File file = new File("app")
+    def path = file.getAbsolutePath()
+    println "app路径= ${path}"
+    def login = """${path}/tools/jiagu/java/bin/java -jar ${path}/tools/jiagu/jiagu.jar -login 18729440250 lc835350313"""// Create the String
+    def loginProc = login.execute()                 // Call *execute* on the string
+    loginProc.waitFor()                               // Wait for the command to finish
+
+    if (loginProc.exitValue() == 0) {
+        println "jiagu-->登录成功"
+
+        def jiagu = """${path}/tools/jiagu/java/bin/java -jar ${path}/tools/jiagu/jiagu.jar -jiagu ${path}/build/outputs/apk/release/app-release.apk ${path}/build/outputs/apk/release"""// Create the String
+        def jiaguProc = jiagu.execute()
+        jiaguProc.waitFor()
+
+        if (jiaguProc.exitValue() == 0) {
+            println "jiagu-->jiagu成功"
+
+        }else{
+            println "jiagu-->jiagu出错**${loginProc.err.text}**"
+        }
+
+    } else {
+        println "jiagu-->登录执行出错**${loginProc.err.text}**"
+    }
+
+}
+
+task1.doLast {
+    println "task1 doLast"
+}
+

@@ -1,0 +1,7 @@
+class SyaHelloTask extends DefaultTask {
+
+    @TaskAction
+    void sayHello(){
+        println "hello"
+    }
+}
