@@ -71,6 +71,15 @@ task1.doFirst {
         if (jiaguProc.exitValue() == 0) {
             println "jiagu-->jiagu成功"
 
+            def channel = """python build_channel.py 1.2.2 ${path}/build/outputs/apk/release/app_release_10_jiagu.apk"""// Create the String
+            def channelProc = channel.execute()
+
+            if (channelProc.exitValue() == 0) {
+
+            }else{
+
+            }
+
         }else{
             println "jiagu-->jiagu出错**${loginProc.err.text}**"
         }
