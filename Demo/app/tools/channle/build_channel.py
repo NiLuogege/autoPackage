@@ -21,7 +21,7 @@ if zipResult == 0:
 else:
     print("zipalign failed")
     exit(1)
-signPath=  "apksigner sign --ks " +apkFile+"observer_app.keystore " + apkFile+apkName
+signPath=  "apksigner sign --ks " +apkFile+"key.jks --ks-key-alias demo --ks-pass pass:111111  --key-pass pass:111111 " + apkFile+apkName
 print(signPath)
 signResult = os.system(signPath)
 print(signResult)
