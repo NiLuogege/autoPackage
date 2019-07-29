@@ -15,7 +15,7 @@ task1.doFirst {
     def appPath = file.getAbsolutePath()//app文件夹 路径
     println "app路径= ${appPath}"
 
-
+    def generateFilePath="""${appPath}/tools/generate"""//生成的文件存储路径
     def jiaguInputAPKpath="""${appPath}/build/outputs/apk/release/app-release.apk"""//加固apk 输入路径
     def jiaguOutputPath="""${appPath}/build/outputs/apk/release"""//加固apk 输出路径
     def jiaguNoSignApkName="app-release_10_jiagu.apk"//加固没签名的apk名称
@@ -25,7 +25,10 @@ task1.doFirst {
     def keyPass="111111"//签署者的密码，即生成jks时指定alias对应的密码
 
 
-
+    def generateFilePathDir = new File(generateFilePath)
+    if (!generateFilePathDir.isDirectory()){
+        generateFilePathDir.mkdirs()
+    }
 
 
 
@@ -46,11 +49,11 @@ task1.doFirst {
         if (jiaguProc.exitValue() == 0) {
             println "jiagu-->jiagu成功"
 
-            def channel = """python ${appPath}/tools/channel/build_channel.py 1.2.2 ${jiaguOutputPath}/${jiaguNoSignApkName} ${keyFilePath} ${keyAlias} ${ksPass} ${keyPass}"""// Create the String
+            def channel = """python ${appPath}/tools/channel/build_channel.py 1.2.2 ${jiaguOutputPath}/${jiaguNoSignApkName} ${keyFilePath} ${keyAlias} ${ksPass} ${keyPass} ${generateFilePath}"""// Create the String
             def channelProc = channel.execute()
 
-            channelProc.waitFor()
             println "stdout: ${channelProc.in.text}"
+            channelProc.waitFor()
 
             if (channelProc.exitValue() == 0) {
                 println "channel-->打渠道包成功"
@@ -75,3 +78,37 @@ task1.doLast {
 
 
 
+task task2(){
+    println "configure task2"
+}
+
+task2.doLast {
+    File file = new File("app")
+    def appPath = file.getAbsolutePath()//app文件夹 路径
+    println "app路径= ${appPath}"
+
+
+    def generateFilePath="""${appPath}/tools/generate"""//生成的文件存储路径
+    def jiaguInputAPKpath="""${appPath}/build/outputs/apk/release/app-release.apk"""//加固apk 输入路径
+    def jiaguOutputPath="""${appPath}/build/outputs/apk/release"""//加固apk 输出路径
+    def jiaguNoSignApkName="app-release_10_jiagu.apk"//加固没签名的apk名称
+    def keyFilePath="""${appPath}/tools/channel/key.jks"""//签名文件全路径
+    def keyAlias="demo"
+    def ksPass="111111"//KeyStore密码
+    def keyPass="111111"//签署者的密码，即生成jks时指定alias对应的密码
+
+
+
+    def channel = """python ${appPath}/tools/channel/build_channel.py 1.2.2 ${jiaguOutputPath}/${jiaguNoSignApkName} ${keyFilePath} ${keyAlias} ${ksPass} ${keyPass} ${generateFilePath}"""// Create the String
+    def channelProc = channel.execute()
+
+    println "stdout: ${channelProc.in.text}"
+    channelProc.waitFor()
+
+    if (channelProc.exitValue() == 0) {
+        println "channel-->打渠道包成功"
+
+    }else{
+        println "channel-->打渠道包失败**${channelProc.err.text}**"
+    }
+}

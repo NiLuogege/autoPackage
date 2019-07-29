@@ -8,6 +8,7 @@ keyFilePath = sys.argv[3]  # 签名文件全路径
 keyAlias = sys.argv[4]  # Alias 名称
 ksPass = sys.argv[5]  # KeyStore密码
 keyPass = sys.argv[6]  # 签署者的密码，即生成jks时指定alias对应的密码
+generateFilePath = sys.argv[7]  # 生成的文件存储路径
 
 channelOutFile = "channels"  # 输出的渠道文件名
 buildToolFile = "D:/soft/AndroidSDK/build-tools/26.0.2"  # sdk 编译环境的位置
@@ -16,7 +17,7 @@ apkFile = os.path.dirname(os.path.realpath(__file__)) + "/"  # 获取到当前py
 
 os.chdir(buildToolFile)
 
-zipResult = os.system("zipalign -v -f 4 " + unSignApkName + " " + apkName)
+zipResult = os.system("zipalign -v -f 4 " + unSignApkName + " " + generateFilePath+ "/" + apkName)
 print(zipResult)
 
 if zipResult == 0:
@@ -24,7 +25,7 @@ if zipResult == 0:
 else:
     print("zipalign failed")
     exit(1)
-signPath = "apksigner sign --ks " + keyFilePath + " --ks-key-alias " + keyAlias + " --ks-pass pass:" + ksPass + "  --key-pass pass:" + keyPass + " " + apkFile + apkName
+signPath = "apksigner sign --ks " + keyFilePath + " --ks-key-alias " + keyAlias + " --ks-pass pass:" + ksPass + "  --key-pass pass:" + keyPass + " " + generateFilePath+ "/" + apkName
 print(signPath)
 signResult = os.system(signPath)
 print(signResult)
@@ -36,7 +37,7 @@ else:
     exit(1)
 
 os.chdir(apkFile)
-checkResult = os.system("java -jar CheckAndroidSignature.jar " + apkName)
+checkResult = os.system("java -jar CheckAndroidSignature.jar " + generateFilePath+ "/" + apkName)
 print(checkResult)
 if checkResult == 0:
     print("sign success")
@@ -44,7 +45,8 @@ else:
     print("sign failed")
     exit(1)
 
-channelResult = os.system("java -jar walle.jar batch -f channel  " + apkName + " " + channelOutFile)
+channelResult = os.system(
+    "java -jar walle.jar batch -f channel  " + generateFilePath+ "/" + apkName + " " + generateFilePath+ "/" + channelOutFile)
 print(checkResult)
 
 if channelResult == 0:
