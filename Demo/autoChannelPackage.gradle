@@ -31,6 +31,9 @@ task1.doFirst {
             def channel = """python build_channel.py 1.2.2 ${path}/build/outputs/apk/release/app_release_10_jiagu.apk"""// Create the String
             def channelProc = channel.execute()
 
+            channelProc.waitFor()
+            println "stdout: ${channelProc.in.text}"
+
             if (channelProc.exitValue() == 0) {
                 println "channel-->打渠道包成功"
 
