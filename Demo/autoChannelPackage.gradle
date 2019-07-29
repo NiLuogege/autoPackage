@@ -15,28 +15,27 @@ task1.doFirst {
     def appPath = file.getAbsolutePath()//app文件夹 路径
     println "app路径= ${appPath}"
 
-    def versionName="""1.2.2"""//app版本号
-    def generateFilePath="""${appPath}/tools/generate"""//生成的文件存储路径
-    def jiaguInputAPKpath="""${appPath}/build/outputs/apk/release/app-release.apk"""//加固apk 输入路径
+    def versionName=VERSION_NAME//app版本号
+    def generateFilePath=GENERATE_FILE_PATH+"/"+VERSION_NAME//生成的文件存储路径
+    def jiaguInputAPKpath=JIAGU_INPUT_APK_PATH//加固apk 输入路径
     def jiaguOutputPath="""${generateFilePath}/jiagu_nosign"""//加固apk 输出路径
     def jiaguNoSignApkName="app-release_10_jiagu.apk"//加固没签名的apk名称
-    def keyFilePath="""${appPath}/tools/channel/key.jks"""//签名文件全路径
-    def keyAlias="demo"
-    def ksPass="111111"//KeyStore密码
-    def keyPass="111111"//签署者的密码，即生成jks时指定alias对应的密码
-    def channelFilePath="""${appPath}/tools/channel/channel"""//渠道文件全路径
+    def keyFilePath=KEY_FILE_PATH//签名文件全路径
+    def keyAlias=KEY_ALIAS
+    def ksPass=KS_PASS//KeyStore密码
+    def keyPass=KEY_PASS//签署者的密码，即生成jks时指定alias对应的密码
+    def channelFilePath=CHANNEL_FILE_PATH//渠道文件全路径
 
 
     def generateFilePathDir = new File(generateFilePath)
-    if (!generateFilePathDir.isDirectory()){
+    if (!generateFilePathDir.exists()||!generateFilePathDir.isDirectory()){
         generateFilePathDir.mkdirs()
     }
 
     def jiaguOutputPathDir = new File(jiaguOutputPath)
-    if (!jiaguOutputPathDir.isDirectory()){
+    if (!jiaguOutputPathDir.exists()||!jiaguOutputPathDir.isDirectory()){
         jiaguOutputPathDir.mkdirs()
     }
-
 
 
     def login = """${appPath}/tools/jiagu/java/bin/java -jar ${appPath}/tools/jiagu/jiagu.jar -login 18729440250 lc835350313"""// Create the String
@@ -49,9 +48,8 @@ task1.doFirst {
         def jiagu = """${appPath}/tools/jiagu/java/bin/java -jar ${appPath}/tools/jiagu/jiagu.jar -jiagu ${jiaguInputAPKpath} ${jiaguOutputPath}"""// Create the String
         def jiaguProc = jiagu.execute()
 
-        jiaguProc.waitFor()
-
         println "stdout: ${jiaguProc.in.text}" // *out* from the external program is *in* for groovy
+        jiaguProc.waitFor()
 
         if (jiaguProc.exitValue() == 0) {
             println "jiagu-->jiagu成功"
