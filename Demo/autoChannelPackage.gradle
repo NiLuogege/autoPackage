@@ -1,0 +1,53 @@
+
+//task task1(dependsOn:[assemble]) {
+//    println "configure task1"
+//}
+
+task task1() {
+    println "configure task1"
+}
+
+task1.doFirst {
+    File file = new File("app")
+    def path = file.getAbsolutePath()
+    println "app路径= ${path}"
+    def login = """${path}/tools/jiagu/java/bin/java -jar ${path}/tools/jiagu/jiagu.jar -login 18729440250 lc835350313"""// Create the String
+    def loginProc = login.execute()                 // Call *execute* on the string
+    loginProc.waitFor()                               // Wait for the command to finish
+
+    if (loginProc.exitValue() == 0) {
+        println "jiagu-->登录成功"
+
+        def jiagu = """${path}/tools/jiagu/java/bin/java -jar ${path}/tools/jiagu/jiagu.jar -jiagu ${path}/build/outputs/apk/release/app-release.apk ${path}/build/outputs/apk/release"""// Create the String
+        def jiaguProc = jiagu.execute()
+
+        jiaguProc.waitFor()
+
+        println "stdout: ${jiaguProc.in.text}" // *out* from the external program is *in* for groovy
+
+        if (jiaguProc.exitValue() == 0) {
+            println "jiagu-->jiagu成功"
+
+            def channel = """python build_channel.py 1.2.2 ${path}/build/outputs/apk/release/app_release_10_jiagu.apk"""// Create the String
+            def channelProc = channel.execute()
+
+            if (channelProc.exitValue() == 0) {
+                println "channel-->打渠道包成功"
+
+            }else{
+                println "channel-->打渠道包失败"
+            }
+
+        }else{
+            println "jiagu-->jiagu出错**${loginProc.err.text}**"
+        }
+
+    } else {
+        println "jiagu-->登录执行出错**${loginProc.err.text}**"
+    }
+
+}
+
+task1.doLast {
+    println "task1 doLast"
+}

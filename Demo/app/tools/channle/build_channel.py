@@ -1,19 +1,19 @@
-#coding=utf-8
+# coding=utf-8
 import os
 import sys
 
 version = sys.argv[1]  # 版本号
 unSignApkName = sys.argv[2]  # 360加固之后没有签名的apk
 
-#keyStoreName = "andmodule.jks"  # 签名文件的名称
+# keyStoreName = "andmodule.jks"  # 签名文件的名称
 channelOutFile = "channels"  # 输出的渠道文件名
-buildToolFile = "D:/soft/AndroidSDK/build-tools/26.0.2"  #sdk 编译环境的位置
+buildToolFile = "D:/soft/AndroidSDK/build-tools/26.0.2"  # sdk 编译环境的位置
 apkName = "App_" + version + "_sign.apk"  # 签名之后的名称
-apkFile = os.path.dirname(os.path.realpath(__file__))+"/"  # 获取到当前py文件的父目录
+apkFile = os.path.dirname(os.path.realpath(__file__)) + "/"  # 获取到当前py文件的父目录
 
 os.chdir(buildToolFile)
 
-zipResult = os.system("zipalign -v -f 4 "+apkFile+unSignApkName+" " + apkFile+apkName)
+zipResult = os.system("zipalign -v -f 4 " + apkFile + unSignApkName + " " + apkFile + apkName)
 print(zipResult)
 
 if zipResult == 0:
@@ -21,7 +21,7 @@ if zipResult == 0:
 else:
     print("zipalign failed")
     exit(1)
-signPath=  "apksigner sign --ks " +apkFile+"key.jks --ks-key-alias demo --ks-pass pass:111111  --key-pass pass:111111 " + apkFile+apkName
+signPath = "apksigner sign --ks " + apkFile + "key.jks --ks-key-alias demo --ks-pass pass:111111  --key-pass pass:111111 " + apkFile + apkName
 print(signPath)
 signResult = os.system(signPath)
 print(signResult)
