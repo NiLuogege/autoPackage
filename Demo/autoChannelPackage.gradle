@@ -18,7 +18,7 @@ task1.doFirst {
     def versionName="""1.2.2"""//app版本号
     def generateFilePath="""${appPath}/tools/generate"""//生成的文件存储路径
     def jiaguInputAPKpath="""${appPath}/build/outputs/apk/release/app-release.apk"""//加固apk 输入路径
-    def jiaguOutputPath=generateFilePath//加固apk 输出路径
+    def jiaguOutputPath="""${generateFilePath}/jiagu_nosign"""//加固apk 输出路径
     def jiaguNoSignApkName="app-release_10_jiagu.apk"//加固没签名的apk名称
     def keyFilePath="""${appPath}/tools/channel/key.jks"""//签名文件全路径
     def keyAlias="demo"
@@ -30,6 +30,11 @@ task1.doFirst {
     def generateFilePathDir = new File(generateFilePath)
     if (!generateFilePathDir.isDirectory()){
         generateFilePathDir.mkdirs()
+    }
+
+    def jiaguOutputPathDir = new File(jiaguOutputPath)
+    if (!jiaguOutputPathDir.isDirectory()){
+        jiaguOutputPathDir.mkdirs()
     }
 
 

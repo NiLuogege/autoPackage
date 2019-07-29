@@ -15,10 +15,17 @@ channelOutFile = "channels"  # 输出的渠道文件名
 buildToolFile = "D:/soft/AndroidSDK/build-tools/26.0.2"  # sdk 编译环境的位置
 apkName = "App_" + version + "_sign.apk"  # 签名之后的名称
 apkFile = os.path.dirname(os.path.realpath(__file__)) + "/"  # 获取到当前py文件的父目录
+jiagu_sign_apk_Path = generateFilePath + "/jiagu_sign/"  # 加固签名后的apk存储路径
+
+if os.path.exists(jiagu_sign_apk_Path):
+    print "version is exist!"
+else:
+    os.mkdir(jiagu_sign_apk_Path)
 
 os.chdir(buildToolFile)
 
-zipResult = os.system("zipalign -v -f 4 " + unSignApkName + " " + generateFilePath + "/" + apkName)
+zipResult = os.system(
+    "zipalign -v -f 4 " + unSignApkName + " " + jiagu_sign_apk_Path + apkName)
 print(zipResult)
 
 if zipResult == 0:
@@ -26,7 +33,7 @@ if zipResult == 0:
 else:
     print("zipalign failed")
     exit(1)
-signPath = "apksigner sign --ks " + keyFilePath + " --ks-key-alias " + keyAlias + " --ks-pass pass:" + ksPass + "  --key-pass pass:" + keyPass + " " + generateFilePath + "/" + apkName
+signPath = "apksigner sign --ks " + keyFilePath + " --ks-key-alias " + keyAlias + " --ks-pass pass:" + ksPass + "  --key-pass pass:" + keyPass + " " + jiagu_sign_apk_Path + apkName
 print(signPath)
 signResult = os.system(signPath)
 print(signResult)
@@ -38,7 +45,8 @@ else:
     exit(1)
 
 os.chdir(apkFile)
-checkResult = os.system("java -jar CheckAndroidSignature.jar " + generateFilePath + "/" + apkName)
+checkResult = os.system(
+    "java -jar CheckAndroidSignature.jar " + jiagu_sign_apk_Path + apkName)
 print(checkResult)
 if checkResult == 0:
     print("sign success")
@@ -47,7 +55,7 @@ else:
     exit(1)
 
 channelResult = os.system(
-    "java -jar walle.jar batch -f " + channelFilePath + " " + generateFilePath + "/" + apkName + " " + generateFilePath + "/" + channelOutFile)
+    "java -jar walle.jar batch -f " + channelFilePath + " " + jiagu_sign_apk_Path + apkName + " " + generateFilePath + "/" + channelOutFile)
 print(checkResult)
 
 if channelResult == 0:
