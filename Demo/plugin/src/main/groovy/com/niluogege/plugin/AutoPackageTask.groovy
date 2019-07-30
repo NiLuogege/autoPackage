@@ -11,40 +11,8 @@ class AutoPackageTask extends DefaultTask {
     @TaskAction
     def AutoPackageAction() {
 
-        println " 111"
-
-        if (!project.hasProperty("VERSION_NAME")) {
-            println "请在 gradle.properties文件中配置 VERSION_NAME"
-        }
-
-        if (!project.hasProperty("GENERATE_FILE_PATH")) {
-            println "请在 gradle.properties文件中配置 GENERATE_FILE_PATH"
-        }
-
-        if (!project.hasProperty("JIAGU_INPUT_APK_PATH")) {
-            println "请在 gradle.properties文件中配置 JIAGU_INPUT_APK_PATH"
-        }
-
-        if (!project.hasProperty("KEY_FILE_PATH")) {
-            println "请在 gradle.properties文件中配置 KEY_FILE_PATH"
-        }
-
-        if (!project.hasProperty("KEY_ALIAS")) {
-            println "请在 gradle.properties文件中配置 KEY_ALIAS"
-        }
-
-        if (!project.hasProperty("KS_PASS")) {
-            println "请在 gradle.properties文件中配置 KS_PASS"
-        }
-
-        if (!project.hasProperty("KEY_PASS")) {
-            println "请在 gradle.properties文件中配置 KEY_PASS"
-        }
-
-        if (!project.hasProperty("CHANNEL_FILE_PATH")) {
-            println "请在 gradle.properties文件中配置 CHANNEL_FILE_PATH"
-        }
-
+        //检查参数
+        checkProperties()
 
         File file = new File("")
         def appPath = file.getAbsolutePath()//app文件夹 路径
@@ -122,5 +90,39 @@ class AutoPackageTask extends DefaultTask {
         }
 
 
+    }
+
+    def checkProperties() {
+        if (!project.hasProperty("VERSION_NAME")) {
+            throw new RuntimeException("请在 gradle.properties文件中配置 VERSION_NAME")
+        }
+
+        if (!project.hasProperty("GENERATE_FILE_PATH")) {
+            throw new RuntimeException("请在 gradle.properties文件中配置 GENERATE_FILE_PATH")
+        }
+
+        if (!project.hasProperty("JIAGU_INPUT_APK_PATH")) {
+            throw new RuntimeException("请在 gradle.properties文件中配置 JIAGU_INPUT_APK_PATH")
+        }
+
+        if (!project.hasProperty("KEY_FILE_PATH")) {
+            throw new RuntimeException("请在 gradle.properties文件中配置 KEY_FILE_PATH")
+        }
+
+        if (!project.hasProperty("KEY_ALIAS")) {
+            throw new RuntimeException("请在 gradle.properties文件中配置 KEY_ALIAS")
+        }
+
+        if (!project.hasProperty("KS_PASS")) {
+            throw new RuntimeException("请在 gradle.properties文件中配置 KS_PASS")
+        }
+
+        if (!project.hasProperty("KEY_PASS")) {
+            throw new RuntimeException("请在 gradle.properties文件中配置 KEY_PASS")
+        }
+
+        if (!project.hasProperty("CHANNEL_FILE_PATH")) {
+            throw new RuntimeException("请在 gradle.properties文件中配置 CHANNEL_FILE_PATH")
+        }
     }
 }
