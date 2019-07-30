@@ -5,7 +5,7 @@ class AutoPackageTask extends DefaultTask {
 
     AutoPackageTask() {
         super
-//        dependsOn "assemble"
+        dependsOn "assembleRelease"
     }
 
     @TaskAction
@@ -29,6 +29,9 @@ class AutoPackageTask extends DefaultTask {
         def ksPass = project.getProperty("KS_PASS")//KeyStore密码
         def keyPass = project.getProperty("KEY_PASS")//签署者的密码，即生成jks时指定alias对应的密码
         def channelFilePath = project.getProperty("CHANNEL_FILE_PATH")//渠道文件全路径
+        def buildToolPath = project.getProperty("BUILD_TOOL_PATH")// sdk 编译环境的位置
+        def userName360 = project.getProperty("USER_NAME_360")// 360 加固 用户名
+        def password360 = project.getProperty("PASSWORD_360")// 360 加固 密码
 
 
         def generateFilePathDir = new File(generateFilePath)
@@ -44,7 +47,7 @@ class AutoPackageTask extends DefaultTask {
 
         def login = """${appPath}/tools/jiagu/java/bin/java -jar ${
             appPath
-        }/tools/jiagu/jiagu.jar -login 18729440250 lc835350313"""// Create the String
+        }/tools/jiagu/jiagu.jar -login ${userName360} ${password360}"""// Create the String
         def loginProc = login.execute()                 // Call *execute* on the string
         loginProc.waitFor()                               // Wait for the command to finish
 
@@ -68,7 +71,7 @@ class AutoPackageTask extends DefaultTask {
                     jiaguOutputPath
                 }/${jiaguNoSignApkName} ${keyFilePath} ${keyAlias} ${ksPass} ${keyPass} ${
                     generateFilePath
-                } ${channelFilePath}"""// Create the String
+                } ${channelFilePath} ${buildToolPath}"""// Create the String
                 def channelProc = channel.execute()
 
                 println "stdout: ${channelProc.in.text}"
@@ -123,6 +126,18 @@ class AutoPackageTask extends DefaultTask {
 
         if (!project.hasProperty("CHANNEL_FILE_PATH")) {
             throw new RuntimeException("请在 gradle.properties文件中配置 CHANNEL_FILE_PATH")
+        }
+
+        if (!project.hasProperty("BUILD_TOOL_PATH")) {
+            throw new RuntimeException("请在 gradle.properties文件中配置 BUILD_TOOL_PATH")
+        }
+
+        if (!project.hasProperty("USER_NAME_360")) {
+            throw new RuntimeException("请在 gradle.properties文件中配置 USER_NAME_360")
+        }
+
+        if (!project.hasProperty("PASSWORD_360")) {
+            throw new RuntimeException("请在 gradle.properties文件中配置 PASSWORD_360")
         }
     }
 }

@@ -12,7 +12,7 @@ generateFilePath = sys.argv[7]  # 生成的文件存储路径
 channelFilePath = sys.argv[8]  # 渠道文件全路径
 
 channelOutFile = "channels"  # 输出的渠道文件名
-buildToolFile = "D:/soft/AndroidSDK/build-tools/26.0.2"  # sdk 编译环境的位置
+buildToolFile = sys.argv[9]  # sdk 编译环境的位置
 apkName = "App_" + version + "_sign.apk"  # 签名之后的名称
 apkFile = os.path.dirname(os.path.realpath(__file__)) + "/"  # 获取到当前py文件的父目录
 jiagu_sign_apk_Path = generateFilePath + "/jiagu_sign/"  # 加固签名后的apk存储路径
