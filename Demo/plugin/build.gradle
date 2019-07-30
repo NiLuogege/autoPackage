@@ -1,0 +1,31 @@
+apply plugin: 'groovy'
+
+dependencies {
+    //gradle sdk
+    compile gradleApi()
+    //groovy sdk
+    compile localGroovy()
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
+
+
+apply plugin: 'com.novoda.bintray-release'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.9.1'
+    }
+}
+
+publish {
+    userOrg = 'niluogege123'//bintray.com用户名
+    groupId = 'com.niluogege'
+    artifactId = 'auto-package'
+    publishVersion = '1.0.0'
+    desc = 'one key channel package'
+    website = 'https://github.com/NiLuogege/autoPackage'
+}
