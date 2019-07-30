@@ -7,6 +7,10 @@ class AutoPackagePlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-            println("hahahahah")
+        project.tasks.create('autoPackage').doFirst {
+            println("autoPackage doFirst")
+        }.doLast {
+            println("autoPackage doLast")
+        }
     }
 }

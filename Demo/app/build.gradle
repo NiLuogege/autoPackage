@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
-apply from: "../autoChannelPackage.gradle"
-import java.io.File
+apply plugin: 'AutoPackage'
 
 android {
     compileSdkVersion 28
@@ -41,7 +40,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'com.niluogege:auto-package:1.0.0'
 }
 
 

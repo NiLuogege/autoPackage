@@ -10,7 +10,7 @@ dependencies {
 sourceCompatibility = "7"
 targetCompatibility = "7"
 
-
+//发布到jcenter
 apply plugin: 'com.novoda.bintray-release'
 buildscript {
     repositories {
@@ -28,4 +28,19 @@ publish {
     publishVersion = '1.0.0'
     desc = 'one key channel package'
     website = 'https://github.com/NiLuogege/autoPackage'
+}
+
+
+//创建本地仓库 用于调试
+apply plugin: 'maven'
+group = 'com.niluogege.auto-package'
+version = '1.0.0'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            //本地的Maven地址设置为D:/repos
+            repository(url: uri('../repo'))
+        }
+    }
 }
