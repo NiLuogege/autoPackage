@@ -13,10 +13,10 @@
 classpath 'com.niluogege.auto-package:plugin:1.0.0'
 ```
 
-3. gradle.properties 中间行 必要参数的配置（具体含义看截图或者demo）
+3. gradle.properties 中间行 必要参数的配置（具体含义看截图或者demo）     
 ![如图](https://github.com/NiLuogege/autoPackage/blob/master/Demo/screenshots/2.jpg)
 
-4. 执行 autoPackage 就可以 一键  release + 加固 + 渠道包 了
+4. 执行 autoPackage 就可以 一键  release + 加固 + 渠道包 了          
 ![如图](https://github.com/NiLuogege/autoPackage/blob/master/Demo/screenshots/3.jpg)
 
 
