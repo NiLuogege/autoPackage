@@ -6,5 +6,4 @@
 
 ## 接入
 1. 将demo中的 tools文件夹下载下来放到自己 app module下（和src同级）如图
-（https://github.com/NiLuogege/autoPackage/blob/master/Demo/img/1.jpg）
-![image](http://github.com/NiLuogege/autoPackage/raw/master/screenshots/1.jpg)
+![如图](https://github.com/NiLuogege/autoPackage/blob/master/Demo/screenshots/1.jpg)
