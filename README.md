@@ -21,6 +21,15 @@ classpath 'com.niluogege:auto-package:2.0.1'
 5. 执行 autoPackage 就可以 一键  release + 加固 + 渠道包 了          
 ![如图](https://github.com/NiLuogege/autoPackage/blob/master/AutoPackage/screenshots/3.jpg)
 
+## 问题
+其实每家公司在打包发布这个环节上虽说大体流程是一致的，但是也存在各种各样微小的的差异，比如说我在打包之前需要判断某个文件是否存在，这种情况下就很难直接使用autoPackage。这种情况下就需要自己对autoPackage进行修改呢？具体实现的话有如下两种方式。
+
+1. 使用本地maven仓库的形式。
+    这种方法其实就是将autoPackage当做module进行依赖，然后将module输出到本地maven仓库再进行依赖。具体的操作demo中有描述。在此不再赘述
+2. 创建独立.gradle 文件进行task编写。
+    具体实现步骤简单描述
+    1. 本目录下创建.gradle文件进行task编写
+    2. app.gradle中进行依赖
 
 ## License
 ```
