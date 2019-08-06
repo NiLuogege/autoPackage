@@ -6,18 +6,20 @@
 
 ## 接入
 1. 将demo中的 tools文件夹下载下来放到自己 app module下（和src同级）如图
-![如图](https://github.com/NiLuogege/autoPackage/blob/master/Demo/screenshots/1.jpg)
+![如图](https://github.com/NiLuogege/autoPackage/blob/master/AutoPackage/screenshots/1.jpg)
 
 2. 根目录下的build.gradle 中添加
 ```
-classpath 'com.niluogege.auto-package:plugin:1.0.0'
+classpath 'com.niluogege:auto-package:2.0.1'
 ```
+3. 在APP下的build。gradle中引用插件如下图 
+![如图](https://github.com/NiLuogege/autoPackage/blob/master/AutoPackage/screenshots/4.jpg)
 
-3. gradle.properties 中间行 必要参数的配置（具体含义看截图或者demo）     
-![如图](https://github.com/NiLuogege/autoPackage/blob/master/Demo/screenshots/2.jpg)
+4. gradle.properties 中间行 必要参数的配置（具体含义看截图或者demo）     
+![如图](https://github.com/NiLuogege/autoPackage/blob/master/AutoPackage/screenshots/2.jpg)
 
-4. 执行 autoPackage 就可以 一键  release + 加固 + 渠道包 了          
-![如图](https://github.com/NiLuogege/autoPackage/blob/master/Demo/screenshots/3.jpg)
+5. 执行 autoPackage 就可以 一键  release + 加固 + 渠道包 了          
+![如图](https://github.com/NiLuogege/autoPackage/blob/master/AutoPackage/screenshots/3.jpg)
 
 
 ## License
