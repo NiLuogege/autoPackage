@@ -10,7 +10,7 @@
 
 2. 根目录下的build.gradle 中添加
 ```
-classpath 'com.niluogege.auto-package:plugin:1.0.0'
+classpath 'com.niluogege:auto-package:2.0.1'
 ```
 3. 在APP下的build。gradle中引用插件如下图 
 ![如图](https://github.com/NiLuogege/autoPackage/blob/master/AutoPackage/screenshots/4.jpg)
